@@ -129,12 +129,30 @@ Map<String, dynamic> dummyData = {
   }
 };
 
+class DummyData {
+  String status;
+  Map<String, dynamic> data;
+  DummyData({required this.status, required this.data});
+
+  factory DummyData.fromMap(Map<String, dynamic> map) {
+    Map<String, dynamic> ok = Data.fromMap(map['data']) as Map<String, dynamic>;
+//
+    return DummyData(status: map['status'], data: ok);
+  }
+}
+
+//
 class Data {
   List<Result> result;
   Data({required this.result});
 
   factory Data.fromMap(Map<String, dynamic> map) {
-    return Data(result: map['result']);
+    var innerList = map['result'] as List;
+    List<Result> dataResult = [];
+    innerList.map((e) {
+      return dataResult.add(Result.fromMap(e));
+    }).toList();
+    return Data(result: dataResult);
   }
 }
 
